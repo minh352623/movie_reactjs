@@ -2,9 +2,11 @@ import React, { Fragment, useEffect, useState } from "react";
 import MovieList from "../components/movie/MovieList";
 import useSWR from "swr";
 import { fetcher } from "../config/config";
-import MovieCart from "../components/movie/MovieCart";
+import MovieCart, { MovieCartSkeleton } from "../components/movie/MovieCart";
 import useDebounce from "../hooks/useDebounce";
 import ReactPaginate from "react-paginate";
+import { v4 } from "uuid";
+import ButtonPrimary from "../components/button/ButtonPrimary";
 const itemsPerPage = 20;
 const MoviePage = () => {
   const [nextPage, setNextPage] = useState(1);
@@ -83,8 +85,15 @@ const MoviePage = () => {
           </svg>
         </button>
       </div>
-      {loading && (
+      {/* {loading && (
         <div className="w-10 h-10 rounded-full border-4 border-primary border-r-transparent animate-spin mx-auto"></div>
+      )} */}
+      {loading && (
+        <div className="grid mb-10 grid-cols-4 gap-10 text-white">
+          {new Array(itemsPerPage).map(() => (
+            <MovieCartSkeleton key={v4()}></MovieCartSkeleton>
+          ))}
+        </div>
       )}
       <div className="grid mb-10 grid-cols-4 gap-10 text-white">
         {!loading &&
@@ -104,6 +113,9 @@ const MoviePage = () => {
         renderOnZeroPageCount={null}
         className="pagination"
       />
+      {/* <div className="my-10 text-center  mx-auto">
+        <ButtonPrimary className="max-w-xs text-white">Load more</ButtonPrimary>
+      </div> */}
     </Fragment>
   );
 };

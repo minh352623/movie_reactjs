@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import ButtonPrimary from "../button/ButtonPrimary";
 import PropTypes from "prop-types";
 import { withErrorBoundary } from "react-error-boundary";
+import LoadingSkeleton from "../../components/loading/LoadingSkeleton";
 const MovieCart = ({ info }) => {
   const navigate = useNavigate();
 
@@ -33,7 +34,7 @@ MovieCart.propTypes = {
     vote_average: PropTypes.number,
     release_date: PropTypes.string,
     poster_path: PropTypes.string,
-    id: PropTypes.string,
+    id: PropTypes.number,
   }),
 };
 function FallbackComponent() {
@@ -43,6 +44,50 @@ function FallbackComponent() {
     </p>
   );
 }
+
+export const MovieCartSkeleton = () => {
+  return (
+    <div className="movie-cart flex flex-col rounded-lg bg-slate-800 p-3 select-none">
+      <LoadingSkeleton
+        width="100%"
+        height="250px"
+        radius="8px"
+        className="mb-5"
+      ></LoadingSkeleton>
+      <div className="flex flex-col flex-1">
+        <h3 className=" text-sm font-bold">
+          <LoadingSkeleton
+            width="100%"
+            height="20px"
+            className="mb-5"
+          ></LoadingSkeleton>
+        </h3>
+        <div className="flex items-center justify-between opacity-50 mb-10">
+          <span>
+            <LoadingSkeleton
+              width="50px"
+              height="10px"
+              className="mb-5"
+            ></LoadingSkeleton>
+          </span>
+          <span>
+            <LoadingSkeleton
+              width="30px"
+              height="10px"
+              className="mb-5"
+            ></LoadingSkeleton>
+          </span>
+        </div>
+        <LoadingSkeleton
+          width="100%"
+          height="50px"
+          className="mb-5"
+          radius="8px"
+        ></LoadingSkeleton>
+      </div>
+    </div>
+  );
+};
 export default withErrorBoundary(MovieCart, {
   FallbackComponent,
 });
